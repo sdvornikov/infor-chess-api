@@ -14,6 +14,7 @@ module.exports = function(app, db) {
 			}
 			// adding a record to DB
 			const player = { name: req.body.name, rating: req.body.initRating || 1000 };
+			// TODO: check if a Player with this name already in DB
 			return db.collection('players').insert(player);
 		}).then(result => {
 			// return the inserted record
@@ -22,4 +23,12 @@ module.exports = function(app, db) {
 				res.status(400).send(err);
 		});
   });
+
+	app.get('/players', (req, res) => {
+		// TODO: think about pagination of the output
+		db.collection('players').find().limit(100).toArray().then(result => {
+			res.send(result);
+		})
+	});
+
 };
