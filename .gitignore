@@ -58,7 +58,7 @@ typings/
 .env
 
 # db connection details
-config/db.js
+config/config.js
 
 # vs code
 .vscode
