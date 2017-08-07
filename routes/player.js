@@ -1,8 +1,17 @@
+const config = require('../config/config');
+
 module.exports = function(app, db) {
+	function tokenValid(req) {
+		return req.body.token == config.adminPasscode;
+	}
 
   app.post('/players', (req, res) => {
+	  if(!tokenValid(req)) {
+		  res.status(401).send();
+		  return;
+	  }
   	// input validation
-		req.check('name', 'Name is required').notEmpty();
+	req.check('name', 'Name is required').notEmpty();
   	req.check('name', 'Name should contain only letters and be 1 to 100 characters long')
 			.isAlpha().isLength({min:1, max:100});
   	req.check('initRating', 'Initial rating should be an integer between 500 and 1000')
